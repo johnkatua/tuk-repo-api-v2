@@ -12,7 +12,7 @@ app.use(express.json());
 
 const port = process.env.PORT || 4000;
 
-mongoose.connect('mongodb://localhost:27017/rbac')
+mongoose.connect(process.env.DB)
   .then(() => {
     console.log('Connected to the DB successfully');
   });
