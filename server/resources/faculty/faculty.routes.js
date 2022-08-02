@@ -8,5 +8,6 @@ router.get('/getAllFaculties', facultyController.getAllFaculties);
 router.get('/getFaculty/:id',facultyController.getFaculty);
 router.post('/createFaculty', authorize, isAdmin, facultyController.createFaculty);
 router.put('/updateFaculty/:id', authorize, isAdmin, facultyController.updateFaculty);
+router.delete('/deleteFaculty/:id', authorize, isAdmin, facultyController.deleteFaculty);
 
 module.exports = router;

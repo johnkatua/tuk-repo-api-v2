@@ -106,7 +106,6 @@ exports.updateFaculty = async (req, res) => {
       res.status(200).json({
         success: true,
         msg: 'Faculty updated successfully',
-        data: data
       })
     }).catch(err => {
       if(err.kind === 'ObjectId') {
@@ -119,5 +118,28 @@ exports.updateFaculty = async (req, res) => {
         success: false,
         msg: `Error updating faculty with an id of ${req.params.id}`
       })
+    })
+};
+
+exports.deleteFaculty = async (req, res) => {
+  await Faculty.findByIdAndDelete(req.params.id)
+    .then(data => {
+      if(!data) {
+        return res.status(404).json({
+          success: false,
+          msg: `Faculty with an id of ${req.params.id} is not found`
+        })
+      }
+      res.status(200).json({
+        success: true,
+        msg: 'Faculty deleted successfully'
+      })
+    }).catch(err => {
+      if(err.kind === 'ObjectId' || err.name === 'NotFound') {
+        return res.status(404).json({
+          success: false,
+          msg: `Could not delete faculty with an id of ${req.params.id}`
+        })
+      }
     })
 };
