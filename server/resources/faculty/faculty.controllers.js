@@ -39,5 +39,23 @@ exports.getFaculty = async (req, res) => {
 }
 
 exports.getAllFaculties = async (req, res) => {
-
-}
+  await Faculty.find()
+    .then(data => {
+      let message = '';
+      if (data === undefined || data.length == 0) {
+        message = 'No Faculties found'
+      } else {
+        message = 'Faculties fetched successfully'
+      }
+      res.status(200).json({
+        success: true,
+        msg: message,
+        data: data
+      })
+    }).catch(err => {
+      res.status(500).send({
+        success: false,
+        msg: err.message || 'Unable to fetch faculties'
+      })
+    })
+};
