@@ -5,6 +5,7 @@ const facultyController = require('./faculty.controllers');
 const { authorize, isAdmin } = require('../../middleware/auth');
 
 router.get('/getAllFaculties', facultyController.getAllFaculties);
+router.get('/getFaculty/:id',facultyController.getFaculty);
 router.post('/createFaculty', authorize, isAdmin, facultyController.createFaculty);
 
 module.exports = router;

@@ -35,7 +35,31 @@ exports.createFaculty = async (req, res) => {
 };
 
 exports.getFaculty = async (req, res) => {
-
+  await Faculty.findById(req.params.id)
+    .then(data => {
+      if(!data) {
+        return res.status(404).json({
+          success: false,
+          msg: `Faculty with an id of ${req.params.id} is not found`
+        })
+      }
+      res.status(200).json({
+        success: true,
+        msg: "Faculty successfully retrieved",
+        data: data
+      })
+    }).catch(err => {
+      if(err.kind === 'ObjectId') {
+        return res.status(404).json({
+          success: false,
+          msg: `Faculty with an id of ${req.params.id} is not found`
+        })
+      }
+      return res.status(500).json({
+        success: false,
+        msg: `Error retrieving faculty with an id of ${req.params.id}`
+      })
+    })
 }
 
 exports.getAllFaculties = async (req, res) => {
