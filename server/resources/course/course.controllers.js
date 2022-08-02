@@ -88,4 +88,41 @@ exports.getCourse = async (req, res) => {
         msg: `Error retrieving course with an id of ${req.params.id}`
       })
     })
+};
+
+exports.updateCourse = async (req, res) => {
+  const { name, courseCode, status, facultyId } = req.body;
+  if(!name || !courseCode || !status || !facultyId) {
+    return res.status(400).json({
+      success: false,
+      msg: 'Please enter all details'
+    })
+  }
+
+  await Course.findByIdAndUpdate(req.params.id, {
+    $set: req.body
+  }, { new: true })
+    .then(data => {
+      if(!data) {
+        return res.status(404).json({
+          success: false,
+          msg: `Course with an id of ${req.params.id} is not found`
+        })
+      }
+      res.status(200).json({
+        success: true,
+        msg: 'Course updated successfully',
+      })
+    }).catch(err => {
+      if(err.kind === 'ObjectId') {
+        return res.status(404).json({
+          success: false,
+          msg: `Course with an id of ${req.params.id} is not found`
+        })
+      }
+      return res.status(500).json({
+        success: false,
+        msg: `Error updating course with an id of ${req.params.id}`
+      })
+    })
 }
