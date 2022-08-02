@@ -19,7 +19,7 @@ const courseSchema = new Schema(
       enum: ["degree", "diploma"]
     },
     facultyId: {
-      type: mongoose.SchemaType.ObjectId,
+      type: Schema.Types.ObjectId,
       ref: 'faculty',
       required: true
     }

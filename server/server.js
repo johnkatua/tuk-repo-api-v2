@@ -4,6 +4,7 @@ const path = require('path');
 
 const userRoutes = require('./resources/user/user.routes');
 const facultyRoutes = require('./resources/faculty/faculty.routes');
+const courseRoutes = require('./resources/course/course.routes');
 
 require('dotenv').config({
   path: path.join(__dirname, "../.env")
@@ -21,6 +22,7 @@ mongoose.connect(process.env.DB)
 
 app.use('/', userRoutes);
 app.use('/faculty', facultyRoutes);
+app.use('/course', courseRoutes);
 
 app.listen(port, () => {
   console.log(`Server is listening on Port: ${port}`)
