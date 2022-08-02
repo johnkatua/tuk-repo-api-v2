@@ -39,3 +39,26 @@ exports.createCourse = async (req, res) => {
       })
     })
 };
+
+
+exports.getAllCourses = async (req, res) => {
+  await Course.find()
+    .then(data => {
+      let message = '';
+      if (data === undefined || data.length == 0) {
+        message = 'No Courses found'
+      } else {
+        message = 'Courses fetched successfully'
+      }
+      res.status(200).json({
+        success: true,
+        msg: message,
+        data: data
+      })
+    }).catch(err => {
+      res.status(500).send({
+        success: false,
+        msg: err.message || 'Unable to fetch courses'
+      })
+    })
+}
