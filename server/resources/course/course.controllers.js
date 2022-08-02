@@ -40,7 +40,6 @@ exports.createCourse = async (req, res) => {
     })
 };
 
-
 exports.getAllCourses = async (req, res) => {
   await Course.find()
     .then(data => {
@@ -59,6 +58,34 @@ exports.getAllCourses = async (req, res) => {
       res.status(500).send({
         success: false,
         msg: err.message || 'Unable to fetch courses'
+      })
+    })
+};
+
+exports.getCourse = async (req, res) => {
+  await Course.findById(req.params.id)
+    .then(data => {
+      if(!data) {
+        return res.status(404).json({
+          success: false,
+          msg: `Course with an id of ${req.params.id} is not found`
+        })
+      }
+      res.status(200).json({
+        success: true,
+        msg: "Course successfully retrieved",
+        data: data
+      })
+    }).catch(err => {
+      if(err.kind === 'ObjectId') {
+        return res.status(404).json({
+          success: false,
+          msg: `Course with an id of ${req.params.id} is not found`
+        })
+      }
+      return res.status(500).json({
+        success: false,
+        msg: `Error retrieving course with an id of ${req.params.id}`
       })
     })
 }
