@@ -83,3 +83,41 @@ exports.getAllFaculties = async (req, res) => {
       })
     })
 };
+
+exports.updateFaculty = async (req, res) => {
+  const { name, acronym } = req.body;
+  if(!name || !acronym) {
+    return res.status(400).json({
+      success: false,
+      msg: 'Please enter faculty name and acronym'
+    })
+  }
+
+  await Faculty.findByIdAndUpdate(req.params.id, {
+    $set: req.body
+  }, { new: true })
+    .then(data => {
+      if(!data) {
+        return res.status(404).json({
+          success: false,
+          msg: `Faculty with an id of ${req.params.id} is not found`
+        })
+      }
+      res.status(200).json({
+        success: true,
+        msg: 'Faculty updated successfully',
+        data: data
+      })
+    }).catch(err => {
+      if(err.kind === 'ObjectId') {
+        return res.status(404).json({
+          success: false,
+          msg: `Faculty with an id of ${req.params.id} is not found`
+        })
+      }
+      return res.status(500).json({
+        success: false,
+        msg: `Error updating faculty with an id of ${req.params.id}`
+      })
+    })
+};
