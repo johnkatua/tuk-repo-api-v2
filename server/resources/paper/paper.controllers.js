@@ -32,4 +32,26 @@ exports.createPaper = async (req, res) => {
         msg: err.message || 'Some error occurred while adding new paper'
       })
     })
-}
+};
+
+exports.getAllPapers = async (req, res) => {
+  await Paper.find()
+    .then(data => {
+      let message = '';
+      if (data === undefined || data.length == 0) {
+        message = 'No Papers found'
+      } else {
+        message = 'Papers fetched successfully'
+      }
+      res.status(200).json({
+        success: true,
+        msg: message,
+        data: data
+      })
+    }).catch(err => {
+      res.status(500).send({
+        success: false,
+        msg: err.message || 'Unable to fetch papers'
+      })
+    })
+};
