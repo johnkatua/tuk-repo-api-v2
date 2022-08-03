@@ -57,7 +57,7 @@ exports.getAllPapers = async (req, res) => {
           courseLevel: paper.courseId.status,
           faculty: paper.facultyId.acronym
         };
-      })
+      });
       res.status(200).json({
         success: true,
         msg: message,
@@ -153,5 +153,55 @@ exports.deletePaper = async (req, res) => {
           msg: `Could not delete paper with an id of ${req.params.id}`
         })
       }
+    })
+};
+
+exports.getPapersByFaculty = async (req, res) => {
+  const { id } = req.params;
+  await Paper.find({ facultyId: id }).populate('facultyId').populate('courseId').exec()
+    .then(data => {
+      if(!data) {
+        return res.status(400).json({
+          success: false,
+          msg: `Faculty with an id of ${id} is not found`
+        })
+      };
+      let msg = '';
+      if(data === undefined || data.length === 0) {
+        msg = 'No papers found under this faculty'
+      } else {
+        msg = 'Papers fetched successfully'
+      }
+
+      let displayedData = data.map(paper => {
+        return {
+          name: paper.name,
+          file: paper.file,
+          year: paper.year,
+          academicYear: paper.academicYear,
+          status: paper.status,
+          courseCode: paper.courseId.courseCode,
+          courseLevel: paper.courseId.status,
+          faculty: paper.facultyId.acronym
+        };
+      });
+      res.status(200).json({
+        success: true,
+        msg: msg,
+        data: displayedData,
+        // totalPages: Math.ceil(count / limit),
+        // currentPage: page
+      })
+    }).catch(err => {
+      if(err.kind === 'ObjectId') {
+        return res.status(404).json({
+          success: false,
+          msg: `Faculty with an id of ${id} is not found`
+        })
+      }
+      return res.status(500).send({
+        success: false,
+        msg: err.message || 'Unable to fetch papers'
+      })
     })
 }
