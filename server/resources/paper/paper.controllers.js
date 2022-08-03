@@ -206,4 +206,56 @@ exports.getPapersByFaculty = async (req, res) => {
         msg: err.message || 'Unable to fetch papers'
       })
     })
-}
+};
+
+exports.getPapersByCourse = async (req, res) => {
+  const { id } = req.params;
+  const { page = 1, limit = 10 } = req.query;
+  const count = await Paper.countDocuments();
+  await Paper.find({ courseId: id }).populate('facultyId').populate('courseId').limit(limit * 1).skip((page - 1) * limit).exec()
+    .then(data => {
+      if(!data) {
+        return res.status(400).json({
+          success: false,
+          msg: `Course with an id of ${id} is not found`
+        })
+      };
+      let msg = '';
+      if(data === undefined || data.length === 0) {
+        msg = 'No papers found under this course'
+      } else {
+        msg = 'Papers fetched successfully'
+      }
+
+      let displayedData = data.map(paper => {
+        return {
+          name: paper.name,
+          file: paper.file,
+          year: paper.year,
+          academicYear: paper.academicYear,
+          status: paper.status,
+          courseCode: paper.courseId.courseCode,
+          courseLevel: paper.courseId.status,
+          faculty: paper.facultyId.acronym
+        };
+      });
+      res.status(200).json({
+        success: true,
+        msg: msg,
+        data: displayedData,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page
+      })
+    }).catch(err => {
+      if(err.kind === 'ObjectId') {
+        return res.status(404).json({
+          success: false,
+          msg: `Course with an id of ${id} is not found`
+        })
+      }
+      return res.status(500).send({
+        success: false,
+        msg: err.message || 'Unable to fetch papers'
+      })
+    })
+};
