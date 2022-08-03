@@ -35,14 +35,17 @@ exports.createPaper = async (req, res) => {
 };
 
 exports.getAllPapers = async (req, res) => {
-  await Paper.find().populate('facultyId').populate('courseId').exec()
+  const { page = 1, limit = 10 } = req.query;
+  const count = await Paper.countDocuments();
+  await Paper.find().populate('facultyId').populate('courseId').limit(limit * 1).skip((page - 1) * limit).exec()
     .then(data => {
       let message = '';
       if (data === undefined || data.length == 0) {
         message = 'No Papers found'
       } else {
         message = 'Papers fetched successfully'
-      }
+      };
+
       let displayedData = data.map(paper => {
         return {
           name: paper.name,
@@ -58,7 +61,9 @@ exports.getAllPapers = async (req, res) => {
       res.status(200).json({
         success: true,
         msg: message,
-        data: displayedData
+        data: displayedData,
+        totalPages: Math.ceil(count / limit),
+        currentPage: page
       })
     }).catch(err => {
       res.status(500).send({
