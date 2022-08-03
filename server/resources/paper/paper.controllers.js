@@ -43,10 +43,22 @@ exports.getAllPapers = async (req, res) => {
       } else {
         message = 'Papers fetched successfully'
       }
+      let displayedData = data.map(paper => {
+        return {
+          name: paper.name,
+          file: paper.file,
+          year: paper.year,
+          academicYear: paper.academicYear,
+          status: paper.status,
+          courseCode: paper.courseId.courseCode,
+          courseLevel: paper.courseId.status,
+          faculty: paper.facultyId.acronym
+        };
+      })
       res.status(200).json({
         success: true,
         msg: message,
-        data: data
+        data: displayedData
       })
     }).catch(err => {
       res.status(500).send({
