@@ -83,3 +83,35 @@ exports.getPaper = async (req, res) => {
       })
     })
 };
+
+exports.updatePaper = async (req, res) => {
+  const { name, year, academicYear, status, due, courseId, facultyId } = req.body;
+  const file = req.file.path;
+
+  await Paper.findByIdAndUpdate(req.params.id, {
+    $set: { name, year, academicYear, status, due, courseId, facultyId, file }
+  }, { new: true })
+    .then(data => {
+      if(!data) {
+        return res.status(404).json({
+          success: false,
+          msg: `Paper with an id of ${req.params.id} is not found`
+        })
+      }
+      res.status(200).json({
+        success: true,
+        msg: 'Paper updated successfully',
+      })
+    }).catch(err => {
+      if(err.kind === 'ObjectId') {
+        return res.status(404).json({
+          success: false,
+          msg: `Paper with an id of ${req.params.id} is not found`
+        })
+      }
+      return res.status(500).json({
+        success: false,
+        msg: `Error updating course with an id of ${req.params.id}`
+      })
+    })
+}

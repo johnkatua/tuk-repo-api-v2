@@ -8,5 +8,6 @@ const { authorize, isAdmin } = require('../../middleware/auth');
 router.get('/getAllPapers', paperController.getAllPapers);
 router.get('/getPaper/:id', paperController.getPaper);
 router.post('/createPaper', authorize, isAdmin, uploadFile, paperController.createPaper);
+router.put('/updatePaper/:id', uploadFile, paperController.updatePaper);
 
 module.exports = router;
