@@ -158,7 +158,9 @@ exports.deletePaper = async (req, res) => {
 
 exports.getPapersByFaculty = async (req, res) => {
   const { id } = req.params;
-  await Paper.find({ facultyId: id }).populate('facultyId').populate('courseId').exec()
+  const { page = 1, limit = 10 } = req.query;
+  const count = await Paper.countDocuments();
+  await Paper.find({ facultyId: id }).populate('facultyId').populate('courseId').limit(limit * 1).skip((page - 1) * limit).exec()
     .then(data => {
       if(!data) {
         return res.status(400).json({
@@ -189,8 +191,8 @@ exports.getPapersByFaculty = async (req, res) => {
         success: true,
         msg: msg,
         data: displayedData,
-        // totalPages: Math.ceil(count / limit),
-        // currentPage: page
+        totalPages: Math.ceil(count / limit),
+        currentPage: page
       })
     }).catch(err => {
       if(err.kind === 'ObjectId') {
