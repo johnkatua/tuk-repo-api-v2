@@ -55,3 +55,31 @@ exports.getAllPapers = async (req, res) => {
       })
     })
 };
+
+exports.getPaper = async (req, res) => {
+  await Paper.findById(req.params.id)
+    .then(data => {
+      if(!data) {
+        return res.status(404).json({
+          success: false,
+          msg: `Paper with an id of ${req.params.id} is not found`
+        })
+      }
+      res.status(200).json({
+        success: true,
+        msg: "Paper successfully retrieved",
+        data: data
+      })
+    }).catch(err => {
+      if(err.kind === 'ObjectId') {
+        return res.status(404).json({
+          success: false,
+          msg: `Paper with an id of ${req.params.id} is not found`
+        })
+      }
+      return res.status(500).json({
+        success: false,
+        msg: `Error retrieving paper with an id of ${req.params.id}`
+      })
+    })
+};
