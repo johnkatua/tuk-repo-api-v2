@@ -35,7 +35,7 @@ exports.createPaper = async (req, res) => {
 };
 
 exports.getAllPapers = async (req, res) => {
-  await Paper.find().populate('facultyId').exec()
+  await Paper.find().populate('facultyId').populate('courseId').exec()
     .then(data => {
       let message = '';
       if (data === undefined || data.length == 0) {
