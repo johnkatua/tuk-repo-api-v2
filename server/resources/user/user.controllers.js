@@ -58,7 +58,9 @@ exports.login = async (req, res, next) => {
       accessToken
     })
   } catch (error) {
-    next(error);
+    return res.status(500).json({
+      msg: error.message || 'An error occurred'
+    });
   }
 };
 
