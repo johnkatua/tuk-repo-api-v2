@@ -12,13 +12,13 @@ async function validatePassword(plainPassword, hashedPassword) {
 
 exports.signup = async(req, res, next) => {
   try {
-    const { email, password, role } = req.body;
+    const { firstName, lastName, email, password, role } = req.body;
     const user = await User.findOne({ email });
     if (user) return res.status(400).json({
       msg: 'User already exists'
     });
     const hashedPassword = await hashPassword(password);
-    const newUser = new User({ email, password: hashedPassword, role: role || "student" });
+    const newUser = new User({ firstName, lastName, email, password: hashedPassword, role: role || "student" });
     const accessToken = jwt.sign({ userId: newUser._id}, process.env.JWT_SECRET, {
       expiresIn: "1d"
     });
