@@ -2,8 +2,7 @@ const Favorite = require('./favorite.model')
 
 exports.createFavorite = async (req, res) => {
   const { paperId, paperName } = req.body;
-  const userId = req.user;
-  console.log(userId);
+  const { userId } = req.userData;
   try {
     const myPapers = await Favorite.findOne({ userId });
     if (myPapers) {
