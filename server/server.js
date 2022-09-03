@@ -7,6 +7,7 @@ const userRoutes = require('./resources/user/user.routes');
 const facultyRoutes = require('./resources/faculty/faculty.routes');
 const courseRoutes = require('./resources/course/course.routes');
 const paperRoutes = require('./resources/paper/paper.routes');
+const favoriteRoutes = require('./resources/favorites/favorite.routes');
 
 require('dotenv').config({
   path: path.join(__dirname, "../.env")
