@@ -1,8 +1,8 @@
 const express = require('express');
-const routes = express.Router();
+const router = express.Router();
 
 const favoriteController = require('./favorite.contriollers');
 
-routes.post('/addFavPaper', favoriteController.createFavorite);
+router.post('/addFavPaper', favoriteController.createFavorite);
 
 module.exports = router;
