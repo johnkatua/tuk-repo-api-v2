@@ -28,6 +28,7 @@ app.use('/', userRoutes);
 app.use('/faculty', facultyRoutes);
 app.use('/course', courseRoutes);
 app.use('/paper', paperRoutes);
+app.use('/fav', favoriteRoutes);
 
 app.listen(port, () => {
   console.log(`Server is listening on Port: ${port}`)
