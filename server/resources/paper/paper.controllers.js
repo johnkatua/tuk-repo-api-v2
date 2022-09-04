@@ -63,7 +63,7 @@ exports.getAllPapers = async (req, res) => {
         msg: message,
         data: displayedData,
         totalPages: Math.ceil(count / limit),
-        currentPage: page
+        currentPage: Number(page)
       })
     }).catch(err => {
       res.status(500).send({
