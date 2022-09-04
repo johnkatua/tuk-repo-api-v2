@@ -64,30 +64,6 @@ exports.getFavPapers = async (req, res) => {
     })
 };
 
-// exports.deletePaper = async (req, res) => {
-//   const { userId } = req.userData;
-//   const { id } = req.params;
-//   try {
-//     const list = await Favorite.findOne({ userId });
-//     const paper = await Favorite.findByIdAndDelete(id);
-//     console.log(paper);
-//     if (list) {
-//       let clearPaper = list.papers.filter(p => p.paperId !== id);
-//       if (clearPaper) {
-//         return res.status(200).json({
-//           msg: `Item with an id of ${id} deleted successfully`,
-//           clearPaper
-//         })
-//       }
-//     }
-//   } catch (error) {
-//     console.log(error);
-//     return res.status(500).json({
-//       msg: 'Something went wrong'
-//     })
-//   }
-// }
-
 exports.deletePaper = async (req, res) => {
   const { id } = req.params;
   const { userId } = req.userData;
