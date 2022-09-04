@@ -106,6 +106,8 @@ exports.deletePaper = async (req, res) => {
       data
     })
   }).catch((error) => {
-    console.log(error);
+    return res.status(500).json({
+      msg: 'Something went wrong'
+    })
   })
 }
