@@ -37,7 +37,8 @@ exports.createFavorite = async (req, res) => {
 
 
 exports.getFavPapers = async (req, res) => {
-  await Favorite.find()
+  const { id } = req.params;
+  await Favorite.find({ userId: id })
     .then(data => {
       let message = '';
       if (data === undefined || data.length == 0) {
