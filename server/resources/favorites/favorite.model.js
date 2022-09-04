@@ -9,7 +9,7 @@ const favoriteSchema = new Schema(
     },
     papers: [
       {
-        paperId: Number,
+        paperId: String,
         name: String,
         file: String,
         year: String,

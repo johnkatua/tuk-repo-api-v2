@@ -1,7 +1,7 @@
 const Favorite = require('./favorite.model')
 
 exports.createFavorite = async (req, res) => {
-  const { paperId, paperName } = req.body;
+  const { paperId, name, file, year, academicYear, status, courseCode, courseLevel, faculty } = req.body;
   const { userId } = req.userData;
   try {
     let myPapers = await Favorite.findOne({ userId });
@@ -12,7 +12,7 @@ exports.createFavorite = async (req, res) => {
           msg: 'Paper already in fav list'
         });
       } else {
-        myPapers.papers.push({ paperId, paperName });
+        myPapers.papers.push({ paperId, name, file, year, academicYear, status, courseCode, courseLevel, faculty });
       }
       myPapers = await myPapers.save();
       return res.status(201).json({
@@ -21,7 +21,7 @@ exports.createFavorite = async (req, res) => {
     } else {
       const newList = await Favorite.create({
         userId,
-        papers: [{ paperId, paperName }]
+        papers: [{ paperId, name, file, year, academicYear, status, courseCode, courseLevel, faculty }]
       });
       return res.status(201).json({
         msg: 'Paper add successfully to your favorite list',
@@ -29,6 +29,7 @@ exports.createFavorite = async (req, res) => {
       });
     }
   } catch (error) {
+    console.log(error)
     res.status(500).json({
       msg: 'Something went wrong'
     })
