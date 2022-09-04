@@ -64,24 +64,48 @@ exports.getFavPapers = async (req, res) => {
     })
 };
 
+// exports.deletePaper = async (req, res) => {
+//   const { userId } = req.userData;
+//   const { id } = req.params;
+//   try {
+//     const list = await Favorite.findOne({ userId });
+//     const paper = await Favorite.findByIdAndDelete(id);
+//     console.log(paper);
+//     if (list) {
+//       let clearPaper = list.papers.filter(p => p.paperId !== id);
+//       if (clearPaper) {
+//         return res.status(200).json({
+//           msg: `Item with an id of ${id} deleted successfully`,
+//           clearPaper
+//         })
+//       }
+//     }
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({
+//       msg: 'Something went wrong'
+//     })
+//   }
+// }
+
 exports.deletePaper = async (req, res) => {
-  const { userId } = req.userData;
   const { id } = req.params;
-  try {
-    const list = await Favorite.find({ userId });
-    if (list) {
-      let clearPaper = list.papers.filter(p => p.paperId == id);
-      if (clearPaper) {
-        return res.status(200).json({
-          msg: `Item with an id of ${id} deleted successfully`,
-          list
-        })
-      }
+  const { userId } = req.userData;
+  await Favorite.updateOne({ userId }, {
+    $pull: { papers: { paperId: id }}
+  }).then((data) => {
+    if (!data) {
+      return res.status(404).json({
+        success: false,
+        msg: `Paper with an id of ${id} is not found`
+      })
     }
-  } catch (error) {
-    console.log(error);
-    return res.status(500).json({
-      msg: 'Something went wrong'
+    res.status(200).json({
+      success: true,
+      msg: 'Paper deleted successfully',
+      data
     })
-  }
+  }).catch((error) => {
+    console.log(error);
+  })
 }
