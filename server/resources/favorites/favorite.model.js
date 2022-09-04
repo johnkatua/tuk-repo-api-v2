@@ -10,7 +10,14 @@ const favoriteSchema = new Schema(
     papers: [
       {
         paperId: Number,
-        paperName: String
+        name: String,
+        file: String,
+        year: String,
+        academicYear: String,
+        status: String,
+        courseCode: String,
+        courseLevel: String,
+        faculty: String
       }
     ]
   },
