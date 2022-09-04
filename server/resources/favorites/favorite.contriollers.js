@@ -66,10 +66,22 @@ exports.getFavPapers = async (req, res) => {
 
 exports.deletePaper = async (req, res) => {
   const { userId } = req.userData;
+  const { id } = req.params;
   try {
     const list = await Favorite.find({ userId });
-    return list
+    if (list) {
+      let clearPaper = list.papers.filter(p => p.paperId == id);
+      if (clearPaper) {
+        return res.status(200).json({
+          msg: `Item with an id of ${id} deleted successfully`,
+          list
+        })
+      }
+    }
   } catch (error) {
     console.log(error);
+    return res.status(500).json({
+      msg: 'Something went wrong'
+    })
   }
 }
