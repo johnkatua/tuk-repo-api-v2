@@ -41,9 +41,9 @@ exports.getFavPapers = async (req, res) => {
     .then(data => {
       let message = '';
       if (data === undefined || data.length == 0) {
-        message = 'No Courses found'
+        message = 'No Papers found'
       } else {
-        message = 'Courses fetched successfully'
+        message = 'Papers fetched successfully'
       }
       res.status(200).json({
         success: true,
@@ -53,7 +53,7 @@ exports.getFavPapers = async (req, res) => {
     }).catch(err => {
       res.status(500).send({
         success: false,
-        msg: err.message || 'Unable to fetch courses'
+        msg: err.message || 'Unable to fetch Papers'
       })
     })
 }
