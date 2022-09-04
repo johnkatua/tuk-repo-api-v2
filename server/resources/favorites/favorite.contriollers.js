@@ -29,13 +29,11 @@ exports.createFavorite = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log(error)
     res.status(500).json({
       msg: 'Something went wrong'
     })
   }
 };
-
 
 exports.getFavPapers = async (req, res) => {
   const { id } = req.params;
