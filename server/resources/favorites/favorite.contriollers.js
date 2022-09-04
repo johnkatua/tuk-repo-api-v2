@@ -94,8 +94,7 @@ exports.deletePaper = async (req, res) => {
   await Favorite.updateOne({ userId }, {
     $pull: { papers: { paperId: id }}
   }).then((data) => {
-    console.log(data);
-    if (!data) {
+    if (data.upsertedId === null) {
       return res.status(404).json({
         success: false,
         msg: `Paper with an id of ${id} is not found`
