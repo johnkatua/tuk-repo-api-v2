@@ -19,7 +19,7 @@ app.use(cors());
 
 const port = process.env.PORT || 4000;
 
-mongoose.connect(process.env.DB)
+mongoose.connect(process.env.MONGOURL)
   .then(() => {
     console.log('Connected to the DB successfully');
   });
