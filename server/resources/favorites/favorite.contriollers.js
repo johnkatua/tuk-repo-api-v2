@@ -62,4 +62,14 @@ exports.getFavPapers = async (req, res) => {
         msg: err.message || 'Unable to fetch Papers'
       })
     })
+};
+
+exports.deletePaper = async (req, res) => {
+  const { userId } = req.userData;
+  try {
+    const list = await Favorite.find({ userId });
+    return list
+  } catch (error) {
+    console.log(error);
+  }
 }
