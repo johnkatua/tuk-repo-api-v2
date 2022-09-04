@@ -48,6 +48,7 @@ exports.getAllPapers = async (req, res) => {
 
       let displayedData = data.map(paper => {
         return {
+          id: paper.id,
           name: paper.name,
           file: paper.file,
           year: paper.year,
