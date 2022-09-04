@@ -4,16 +4,19 @@ exports.createFavorite = async (req, res) => {
   const { paperId, paperName } = req.body;
   const { userId } = req.userData;
   try {
-    const myPapers = await Favorite.findOne({ userId });
+    let myPapers = await Favorite.findOne({ userId });
     if (myPapers) {
-      const paperIdx = myPapers.papers.findIndex(p => p.paperId === paperId);
-      if (paperIdx < -1) {
+      let paperIdx = myPapers.papers.findIndex(p => p.paperId == paperId);
+      if (paperIdx > -1) {
+        return res.status(409).json({
+          msg: 'Paper already in fav list'
+        });
+      } else {
         myPapers.papers.push({ paperId, paperName });
       }
       myPapers = await myPapers.save();
       return res.status(201).json({
         msg: 'Paper add successfully to your favorite list',
-        data: myPapers
       })
     } else {
       const newList = await Favorite.create({
@@ -22,15 +25,17 @@ exports.createFavorite = async (req, res) => {
       });
       return res.status(201).json({
         msg: 'Paper add successfully to your favorite list',
-        data: newList
+        newList
       });
     }
   } catch (error) {
+    console.log(error);
     res.status(500).json({
       msg: 'Something went wrong'
     })
   }
 };
+
 
 exports.getFavPapers = async (req, res) => {
   await Favorite.find()
