@@ -1,17 +1,17 @@
 const Paper = require('./paper.model');
 
 exports.createPaper = async (req, res) => {
-  const { name, year, academicYear, status, due, courseId, facultyId } = req.body;
+  const { name, year, academicYear, status, courseId, facultyId } = req.body;
   const file = req.file.path;
 
-  if(!name || !year || !academicYear || !status || !due || !courseId || !facultyId || !file) {
+  if(!name || !year || !academicYear || !status || !courseId || !facultyId || !file) {
     return res.status(400).json({
       success: false,
       msg: 'Please fill all fields'
     })
   }
 
-  let paper = new Paper({ name, year, academicYear, status, due, courseId, facultyId, file });
+  let paper = new Paper({ name, year, academicYear, status, courseId, facultyId, file });
 
   await paper.save()
     .then(data => {

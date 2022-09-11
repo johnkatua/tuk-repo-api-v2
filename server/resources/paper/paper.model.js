@@ -27,7 +27,6 @@ const paperSchema = new Schema(
       default: "mainExam",
       enum: ['mainExam', 'cat']
     },
-    due: Date,
     courseId: {
       type: Schema.Types.ObjectId,
       ref: "course",
