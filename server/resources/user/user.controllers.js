@@ -55,7 +55,7 @@ exports.login = async (req, res, next) => {
         id: user._id,
         email: user.email,
         role: user.role
-      },
+      },                                                                                                                                                                                                                                                                                                                                                                                                                          
       accessToken
     })
   } catch (error) {
@@ -64,6 +64,11 @@ exports.login = async (req, res, next) => {
     });
   }
 };
+
+exports.getUser = async (req, res) => {
+  const { userId } = req.userData;
+  console.log('user', userId);
+}
 
 exports.getUsers = async (req, res, next) => {
   const users = await User.find();

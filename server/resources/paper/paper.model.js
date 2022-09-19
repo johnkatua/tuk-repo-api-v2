@@ -25,7 +25,7 @@ const paperSchema = new Schema(
       type: String,
       required: true,
       default: "mainExam",
-      enum: ['mainExam', 'cat']
+      enum: ['mainExam', 'cat'] 
     },
     courseId: {
       type: Schema.Types.ObjectId,
