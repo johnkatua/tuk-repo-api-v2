@@ -46,7 +46,7 @@ exports.login = async (req, res, next) => {
     if (!validPassword) return res.status(400).json({
       msg: 'Password is not correct'
     });
-    const accessToken = jwt.sign({ userId: user._id, role: user.role }, process.env.JWT_SECRET, {
+    const accessToken = jwt.sign({ userId: user._id, role: user.role, email: user.email }, process.env.JWT_SECRET, {
       expiresIn: '1d'
     });
     await User.findByIdAndUpdate(user._id, { accessToken });
@@ -66,8 +66,19 @@ exports.login = async (req, res, next) => {
 };
 
 exports.getUser = async (req, res) => {
-  const { userId } = req.userData;
-  console.log('user', userId);
+  const user = req.userData;
+  try {
+    if (user) {
+      res.status(200).json({
+        msg: 'user profile successfully fetched',
+        data: user
+      })
+    }
+  } catch (error) {
+    res.status(500).json({
+      msg: 'An error occurred'
+    })
+  }
 }
 
 exports.getUsers = async (req, res, next) => {
