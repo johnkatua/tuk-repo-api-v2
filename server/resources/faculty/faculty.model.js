@@ -8,7 +8,8 @@ const facultySchema = new Schema(
       required: true,
       unique: true,
     },
-    acronym: String
+    acronym: String,
+    description: String
   },
   {
     timestamps: true
