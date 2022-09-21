@@ -1,8 +1,8 @@
 const Faculty = require('./faculty.model');
 
 exports.createFaculty = async (req, res) => {
-  const { name, acronym } = req.body;
-  if (!name || !acronym) {
+  const { name, acronym, description } = req.body;
+  if (!name || !acronym || !description) {
     return res.status(400).json({
       success: false,
       msg: 'Please enter all details'
@@ -17,7 +17,7 @@ exports.createFaculty = async (req, res) => {
     })
   };
 
-  let newFaculty = new Faculty({ name, acronym });
+  let newFaculty = new Faculty({ name, acronym, description });
 
   await newFaculty.save()
     .then(data => {
