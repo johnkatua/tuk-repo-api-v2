@@ -100,12 +100,13 @@ exports.updateFaculty = async (req, res) => {
       if(!data) {
         return res.status(404).json({
           success: false,
-          msg: `Faculty with an id of ${req.params.id} is not found`
+          msg: `Faculty with an id of ${req.params.id} is not found`,
         })
       }
       res.status(200).json({
         success: true,
         msg: 'Faculty updated successfully',
+        data
       })
     }).catch(err => {
       if(err.kind === 'ObjectId') {
