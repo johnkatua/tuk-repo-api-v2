@@ -57,7 +57,8 @@ exports.getAllPapers = async (req, res) => {
           courseCode: paper.courseId.courseCode,
           courseLevel: paper.courseId.status,
           faculty: paper.facultyId.acronym,
-          facultyId: paper.facultyId._id
+          facultyId: paper.facultyId._id,
+          courseId: paper.courseId._id
         };
       });
       res.status(200).json({
