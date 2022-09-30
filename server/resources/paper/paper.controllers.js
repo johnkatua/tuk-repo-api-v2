@@ -105,11 +105,11 @@ exports.getPaper = async (req, res) => {
 };
 
 exports.updatePaper = async (req, res) => {
-  const { name, year, academicYear, status, due, courseId, facultyId } = req.body;
+  const { name, year, academicYear, status, courseId, facultyId } = req.body;
   const file = req.file.path;
 
   await Paper.findByIdAndUpdate(req.params.id, {
-    $set: { name, year, academicYear, status, due, courseId, facultyId, file }
+    $set: { name, year, academicYear, status, courseId, facultyId, file }
   }, { new: true })
     .then(data => {
       if(!data) {
