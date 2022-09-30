@@ -121,6 +121,7 @@ exports.updatePaper = async (req, res) => {
       res.status(200).json({
         success: true,
         msg: 'Paper updated successfully',
+        data
       })
     }).catch(err => {
       if(err.kind === 'ObjectId') {
