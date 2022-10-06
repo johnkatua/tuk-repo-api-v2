@@ -30,3 +30,8 @@ const courseSchema = new Schema(
 const course = mongoose.model('course', courseSchema);
 
 module.exports = course;
+
+courseSchema.pre('deleteMany', function (next) {
+  let course = this;
+  course.model('paper').deleteOne({ course: course._id }, next);
+});
