@@ -33,5 +33,19 @@ module.exports = course;
 
 courseSchema.pre('deleteMany', function (next) {
   let course = this;
-  course.model('paper').deleteOne({ course: course._id }, next);
+  course.model('paper').deleteOne({ course: course._id }, function (err, res) {
+    if (err) {
+      res.status(500).json({
+        msg: err
+      })
+      console.log(err);
+      next(err)
+    } else {
+      res.status(200).json({
+        msg: 'Delete successfully'
+      })
+      console.log('success');
+      next()
+    }
+  });
 });
