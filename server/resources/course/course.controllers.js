@@ -129,24 +129,41 @@ exports.updateCourse = async (req, res) => {
 }
 
 exports.deleteCourse = async (req, res) => {
-  await Course.findByIdAndDelete(req.params.id)
-    .then(data => {
-      if(!data) {
-        return res.status(404).json({
-          success: false,
-          msg: `Course with an id of ${req.params.id} is not found`
-        })
-      }
-      res.status(200).json({
-        success: true,
-        msg: 'Course deleted successfully'
+  try {
+    await Course.deleteOne({ _id: req.params.id });
+    return res.status(200).json({
+      success: true,
+      msg: 'Course deleted successfully'
+    });
+  } catch (error) {
+    if (err.kind === 'ObjectId' || err.name === 'Not Found') {
+      return res.status(500).json({
+        success: false,
+        msg: error.message
       })
-    }).catch(err => {
-      if(err.kind === 'ObjectId' || err.name === 'NotFound') {
-        return res.status(404).json({
-          success: false,
-          msg: `Could not delete course with an id of ${req.params.id}`
-        })
-      }
-    })
-};
+    }
+  }
+}
+
+// exports.deleteCourse = async (req, res) => {
+//   await Course.findByIdAndDelete(req.params.id)
+//     .then(data => {
+//       if(!data) {
+//         return res.status(404).json({
+//           success: false,
+//           msg: `Course with an id of ${req.params.id} is not found`
+//         })
+//       }
+//       res.status(200).json({
+//         success: true,
+//         msg: 'Course deleted successfully'
+//       })
+//     }).catch(err => {
+//       if(err.kind === 'ObjectId' || err.name === 'NotFound') {
+//         return res.status(404).json({
+//           success: false,
+//           msg: `Could not delete course with an id of ${req.params.id}`
+//         })
+//       }
+//     })
+// };

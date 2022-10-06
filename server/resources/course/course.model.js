@@ -31,9 +31,9 @@ const course = mongoose.model('course', courseSchema);
 
 module.exports = course;
 
-courseSchema.pre('deleteMany', function (next) {
+courseSchema.pre('deleteOne', function (next) {
   let course = this;
-  course.model('paper').deleteOne({ course: course._id }, function (err, res) {
+  course.model('paper').deleteMany({ course: course._id }, function (err, res) {
     if (err) {
       res.status(500).json({
         msg: err
