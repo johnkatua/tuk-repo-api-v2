@@ -20,7 +20,7 @@ const courseSchema = new Schema(
     },
     facultyId: {
       type: Schema.Types.ObjectId,
-      ref: 'faculty',
+      ref: 'Faculty',
       required: true
     }
   },

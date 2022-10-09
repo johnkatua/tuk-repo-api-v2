@@ -1,4 +1,4 @@
-const Faculty = require('./faculty.model');
+const { Faculty }  = require('./faculty.model');
 
 exports.createFaculty = async (req, res) => {
   const { name, acronym, description } = req.body;
@@ -123,6 +123,7 @@ exports.updateFaculty = async (req, res) => {
 };
 
 exports.deleteFaculty = async (req, res) => {
+  console.log('course deleted', req.params.id)
   await Faculty.findByIdAndDelete(req.params.id)
     .then(data => {
       if(!data) {
