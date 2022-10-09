@@ -136,7 +136,7 @@ exports.deleteCourse = async (req, res) => {
       msg: 'Course deleted successfully'
     });
   } catch (error) {
-    if (err.kind === 'ObjectId' || err.name === 'Not Found') {
+    if (error.kind === 'ObjectId' || error.name === 'Not Found') {
       return res.status(500).json({
         success: false,
         msg: error.message
