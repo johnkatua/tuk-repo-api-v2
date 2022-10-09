@@ -17,25 +17,14 @@ const facultySchema = new Schema(
   }
 );
 
+facultySchema.pre('deleteOne', async function (next) {
+  const facultyId = this.getQuery()['id'];
+  await Course.deleteMany({ facultyId }).exec();
+  next()
+})
+
 const Faculty = mongoose.model('Faculty', facultySchema);
-
-// const removeChildren = facultySchema.pre('remove', (next) => {
-//   console.log('my object', this);
-//   Course.remove({ facultyId: this._id }).exec();
-//   next();
-// })
-
-const removeChildren = () => {
-  facultySchema.pre('remove', (next) => {
-    console.log('this', this);
-    Course.remove({ facultyId: this._id });
-    next();
-  })
-}
 
 console.log('ran')
 
-module.exports = {
-  Faculty,
-  removeChildren
-};
+module.exports = { Faculty };

@@ -122,26 +122,42 @@ exports.updateFaculty = async (req, res) => {
     })
 };
 
+// exports.deleteFaculty = async (req, res) => {
+//   console.log('course deleted', req.params.id)
+//   await Faculty.findByIdAndDelete(req.params.id)
+//     .then(data => {
+//       if(!data) {
+//         return res.status(404).json({
+//           success: false,
+//           msg: `Faculty with an id of ${req.params.id} is not found`
+//         })
+//       }
+//       res.status(200).json({
+//         success: true,
+//         msg: 'Faculty deleted successfully'
+//       })
+//     }).catch(err => {
+//       if(err.kind === 'ObjectId' || err.name === 'NotFound') {
+//         return res.status(404).json({
+//           success: false,
+//           msg: `Could not delete faculty with an id of ${req.params.id}`
+//         })
+//       }
+//     })
+// };
+
 exports.deleteFaculty = async (req, res) => {
-  console.log('course deleted', req.params.id)
-  await Faculty.findByIdAndDelete(req.params.id)
-    .then(data => {
-      if(!data) {
-        return res.status(404).json({
-          success: false,
-          msg: `Faculty with an id of ${req.params.id} is not found`
-        })
-      }
-      res.status(200).json({
-        success: true,
-        msg: 'Faculty deleted successfully'
-      })
-    }).catch(err => {
-      if(err.kind === 'ObjectId' || err.name === 'NotFound') {
-        return res.status(404).json({
-          success: false,
-          msg: `Could not delete faculty with an id of ${req.params.id}`
-        })
-      }
+  const id = req.params.id
+  try {
+    await Faculty.deleteOne({ id });
+    return res.status(200).json({
+      success: true,
+      msg: 'Faculty deleted successfully'
     })
-};
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      msg: error
+    })
+  }
+}
