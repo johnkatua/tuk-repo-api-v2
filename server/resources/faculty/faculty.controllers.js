@@ -148,8 +148,9 @@ exports.updateFaculty = async (req, res) => {
 
 exports.deleteFaculty = async (req, res) => {
   const id = req.params.id
+  console.log('id', id)
   try {
-    await Faculty.deleteOne({ id });
+    await Faculty.deleteOne({ _id: id });
     return res.status(200).json({
       success: true,
       msg: 'Faculty deleted successfully'

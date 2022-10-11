@@ -18,13 +18,11 @@ const facultySchema = new Schema(
 );
 
 facultySchema.pre('deleteOne', async function (next) {
-  const facultyId = this.getQuery()['id'];
+  const facultyId = this.getQuery()['_id'];
   await Course.deleteMany({ facultyId }).exec();
   next()
 })
 
 const Faculty = mongoose.model('Faculty', facultySchema);
-
-console.log('ran')
 
 module.exports = { Faculty };
