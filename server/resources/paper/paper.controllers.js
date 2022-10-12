@@ -137,28 +137,44 @@ exports.updatePaper = async (req, res) => {
     })
 };
 
+// exports.deletePaper = async (req, res) => {
+//   await Paper.findByIdAndDelete(req.params.id)
+//     .then(data => {
+//       if(!data) {
+//         return res.status(404).json({
+//           success: false,
+//           msg: `Paper with an id of ${req.params.id} is not found`
+//         })
+//       }
+//       res.status(200).json({
+//         success: true,
+//         msg: 'Paper deleted successfully'
+//       })
+//     }).catch(err => {
+//       if(err.kind === 'ObjectId' || err.name === 'NotFound') {
+//         return res.status(404).json({
+//           success: false,
+//           msg: `Could not delete paper with an id of ${req.params.id}`
+//         })
+//       }
+//     })
+// };
+
 exports.deletePaper = async (req, res) => {
-  await Paper.findByIdAndDelete(req.params.id)
-    .then(data => {
-      if(!data) {
-        return res.status(404).json({
-          success: false,
-          msg: `Paper with an id of ${req.params.id} is not found`
-        })
-      }
-      res.status(200).json({
-        success: true,
-        msg: 'Paper deleted successfully'
-      })
-    }).catch(err => {
-      if(err.kind === 'ObjectId' || err.name === 'NotFound') {
-        return res.status(404).json({
-          success: false,
-          msg: `Could not delete paper with an id of ${req.params.id}`
-        })
-      }
+  const id = req.params.id;
+  try {
+    await Paper.deleteOne({ _id: id });
+    return res.status(200).json({
+      success: true,
+      msg: 'Paper deleted successfully'
     })
-};
+  } catch (error) {
+    return res.status(500).json({
+      success: false,
+      msg: error
+    })
+  }
+}
 
 exports.getPapersByFaculty = async (req, res) => {
   const { id } = req.params;
