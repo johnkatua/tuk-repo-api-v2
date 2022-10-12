@@ -30,7 +30,6 @@ const courseSchema = new Schema(
 
 courseSchema.pre('deleteOne', async function (next) {
   const courseId = this.getQuery()['_id'];
-  console.log(courseId);
   await Paper.deleteMany({ courseId }).exec();
   next();
 })
