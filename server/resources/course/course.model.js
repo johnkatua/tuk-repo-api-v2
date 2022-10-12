@@ -17,7 +17,7 @@ const courseSchema = new Schema(
       type: String,
       required: true,
       default: "degree",
-      enum: ["degree", "diploma"]
+      enum: ["degree", "diploma", "certificate"]
     },
     facultyId: {
       type: Schema.Types.ObjectId,
