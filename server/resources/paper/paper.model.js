@@ -29,12 +29,12 @@ const paperSchema = new Schema(
     },
     courseId: {
       type: Schema.Types.ObjectId,
-      ref: "course",
+      ref: "Course",
       required: true
     },
     facultyId: {
       type: Schema.Types.ObjectId,
-      ref: "faculty",
+      ref: "Faculty",
       required: true,
     }
   },
