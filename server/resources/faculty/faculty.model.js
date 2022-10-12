@@ -19,7 +19,6 @@ const facultySchema = new Schema(
 );
 
 facultySchema.pre('deleteOne', async function (next) {
-  console.log('git');
   const facultyId = this.getQuery()['_id'];
   await Course.deleteMany({ facultyId }).exec();
   await Paper.deleteMany({ facultyId }).exec();
