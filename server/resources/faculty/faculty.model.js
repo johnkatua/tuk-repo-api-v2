@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 const Course = require('../course/course.model');
+const Paper = require('../paper/paper.model');
 
 const facultySchema = new Schema(
   {
@@ -18,8 +19,10 @@ const facultySchema = new Schema(
 );
 
 facultySchema.pre('deleteOne', async function (next) {
+  console.log('git');
   const facultyId = this.getQuery()['_id'];
   await Course.deleteMany({ facultyId }).exec();
+  await Paper.deleteMany({ facultyId }).exec();
   next()
 })
 
