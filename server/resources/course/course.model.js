@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const Paper = require('../paper/paper.model');
 const Schema = mongoose.Schema;
 
 const courseSchema = new Schema(
@@ -26,6 +27,20 @@ const courseSchema = new Schema(
   },
   { timestamps: true }
 );
+
+courseSchema.pre('deleteOne', async function (next) {
+  const courseId = this.getQuery()['_id'];
+  console.log(courseId);
+  await Paper.deleteMany({ courseId }).exec();
+  next();
+})
+
+// facultySchema.pre('deleteOne', async function (next) {
+//   const facultyId = this.getQuery()['_id'];
+//   await Course.deleteMany({ facultyId }).exec();
+//   await Paper.deleteMany({ facultyId }).exec();
+//   next()
+// })
 
 const course = mongoose.model('Course', courseSchema);
 

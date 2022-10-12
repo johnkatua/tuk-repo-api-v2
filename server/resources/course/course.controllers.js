@@ -129,6 +129,7 @@ exports.updateCourse = async (req, res) => {
 }
 
 exports.deleteCourse = async (req, res) => {
+  console.log('running');
   try {
     await Course.deleteOne({ _id: req.params.id });
     return res.status(200).json({
@@ -144,3 +145,4 @@ exports.deleteCourse = async (req, res) => {
     }
   }
 }
+
