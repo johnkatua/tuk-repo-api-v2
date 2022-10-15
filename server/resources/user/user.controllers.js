@@ -22,7 +22,6 @@ exports.signup = async(req, res, next) => {
     const accessToken = jwt.sign({ userId: newUser._id, email: newUser.email, role: newUser.role }, process.env.JWT_SECRET, {
       expiresIn: "1d"
     });
-    // newUser.accessToken = accessToken;
     await newUser.save();
     res.json({
       data: {
