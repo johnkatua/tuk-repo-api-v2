@@ -19,13 +19,17 @@ exports.signup = async(req, res, next) => {
     });
     const hashedPassword = await hashPassword(password);
     const newUser = new User({ firstName, lastName, email, password: hashedPassword, role: role || "student" });
-    const accessToken = jwt.sign({ userId: newUser._id}, process.env.JWT_SECRET, {
+    const accessToken = jwt.sign({ userId: newUser._id, email: newUser.email }, process.env.JWT_SECRET, {
       expiresIn: "1d"
     });
-    newUser.accessToken = accessToken;
+    // newUser.accessToken = accessToken;
     await newUser.save();
     res.json({
-      data: newUser,
+      data: {
+        id: user._id,
+        email: user.email,
+        role: user.role
+      },                                                                                                                                                                                                                                                                                                                                                                                                                          
       accessToken
     })
   } catch (error) {
