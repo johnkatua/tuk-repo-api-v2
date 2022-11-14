@@ -1,6 +1,6 @@
 const nodemailer = require('nodemailer');
 
-export const sendEmail = ({ from, to, subject, text }) => {
+exports.sendEmail = ({ from, to, subject, text }) => {
   const client = nodemailer.createTransport({
     service: process.env.EMAIL_SERVICE,
     auth: {

@@ -1,6 +1,8 @@
 const User = require('./user.model');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
+const uuid = require('uuid');
+const { sendEmail } = require('../../utils/sendEmail');
 
 async function hashPassword(password) {
   return await bcrypt.hash(password, 10);
@@ -103,3 +105,31 @@ exports.deleteUser = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.resetPassword = async(req, res) => {
+  try {
+    const { email } = req.params;
+    const passwordResetCode = uuid.v4();
+    return res.json({
+      passwordResetCode
+    })
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+exports.testEmail  = async (req, res) => {
+  try {
+    await sendEmail({
+      to: 'johnkatua99+test1@gmail.com',
+      from: 'johnkatua99@gmail.com',
+      subject: 'Does this work',
+      text: 'Welcome again'
+    });
+    res.status(200).json({ msg: 'Email sent successfully '})
+  } catch (error) {
+    res.status(500).json({
+      msg: error
+    })
+  }
+}
